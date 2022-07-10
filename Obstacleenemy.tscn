@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/Pixel Adventure 2/Enemies/Radish/Idle 1 (30x38).png" type="Texture" id=1]
+[ext_resource path="res://Obstacleenemy.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 11.0
+height = 8.0
+
+[node name="Obstacleenemy" type="StaticBody2D" groups=["Enemy"]]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1, -12 )
+shape = SubResource( 1 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( -1, -28.5 )
+scale = Vector2( 1.5, 0.05 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -1, -16 )
+texture = ExtResource( 1 )
+hframes = 6
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

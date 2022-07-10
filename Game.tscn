@@ -1,0 +1,94 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://save_02.gd" type="Script" id=2]
+[ext_resource path="res://GUI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Game.gd" type="Script" id=4]
+[ext_resource path="res://plattform.tscn" type="PackedScene" id=5]
+[ext_resource path="res://seamless-rounded-pixel-art-clouds-texture-vector-blue-sky-background-white-cloud-sky-blue-repeating-pattern-printing-web-203679900 (1).jpg" type="Texture" id=6]
+[ext_resource path="res://Transitionlayer.gd" type="Script" id=12]
+[ext_resource path="res://TransitionRekt.gd" type="Script" id=13]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 4 )
+game_save_class = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+gravity_scale = 9.61
+left_press_button = NodePath("../CanvasLayer/Left")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2( 0, -200 )
+current = true
+limit_left = -270
+limit_right = 270
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+drag_margin_left = 1.0
+drag_margin_top = 0.25
+drag_margin_right = 1.0
+drag_margin_bottom = 1.0
+editor_draw_drag_margin = true
+
+[node name="CameraTween" type="Tween" parent="Player/Camera2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" parent="CanvasLayer" instance=ExtResource( 3 )]
+
+[node name="Left" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2( 269, -1 )
+rotation = 3.14159
+scale = Vector2( 14.126, -60 )
+shape = SubResource( 1 )
+shape_visible = false
+action = "ui_left"
+
+[node name="Right" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2( 271, 0 )
+scale = Vector2( 14.126, 60 )
+shape = SubResource( 1 )
+shape_visible = false
+action = "ui_right"
+
+[node name="AllPlatforms" type="Node" parent="."]
+
+[node name="platform" parent="AllPlatforms" instance=ExtResource( 5 )]
+position = Vector2( 0, 50 )
+
+[node name="AllObstacleEnemys" type="Node" parent="."]
+
+[node name="Transitionlayer" type="CanvasLayer" parent="."]
+pause_mode = 2
+script = ExtResource( 12 )
+
+[node name="TransitionRekt" type="ColorRect" parent="Transitionlayer"]
+margin_right = 40.0
+margin_bottom = 40.0
+color = Color( 0, 0, 0, 1 )
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+camera = NodePath("../../Player/Camera2D")
+
+[node name="Tween" type="Tween" parent="Transitionlayer/TransitionRekt"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 540, 1200 )
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
+margin_left = -569.0
+margin_top = -13.0
+margin_right = 1431.0
+margin_bottom = 1320.0
+texture = ExtResource( 6 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
